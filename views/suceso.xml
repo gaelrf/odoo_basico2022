@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="suceso_tree_view">
+            <field name="name">suceso.tree</field>
+            <field name="model">odoo_basico.suceso</field>
+            <field name="arch" type="xml">
+                <tree string="suceso Tree" editable ="top" decoration-success="nivel == 'Baixo'" decoration-warning="nivel == 'Medio'" decoration-danger="nivel == 'Alto'">
+                    <field name="name"/>
+                    <field name="descripcion"/>
+                    <field name="nivel"/>
+                    <field name="data_hora"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
