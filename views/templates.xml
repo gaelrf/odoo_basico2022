@@ -66,4 +66,5 @@
             <field name="ancho_en_cms">6</field>
             <field name="peso">6</field>
         </record>
-    </data></odoo>
+    </data>
+</odoo>
