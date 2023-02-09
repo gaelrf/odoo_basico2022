@@ -15,8 +15,6 @@ class pedido(models.Model):
         for rexistro in informacion_ids:
             self.env['odoo_basico.informacion']._cambia_campo_sexo(rexistro)
 
-
-
     def creaRexistroInformacion(self):
         creado_id = self.env['odoo_basico.informacion'].create({'name': 'Creado dende pedido'})
         creado_id.descripcion =  "Creado dende o modelo pedido"
@@ -28,3 +26,8 @@ class pedido(models.Model):
             informacion_id.name = "Actualizado ..."
             informacion_id.descripcion = "Actualizado dende o modelo pedido"
             informacion_id.sexo_traducido = "Mujer"
+
+    def actualizadorHoraTimezone(self):
+        informacion_ids = self.env['odoo_basico.informacion'].search([])
+        for rexistro in informacion_ids:
+            self.env['odoo_basico.informacion'].actualiza_hora_timezone_usuario(rexistro)

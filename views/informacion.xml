@@ -49,6 +49,11 @@
                     <field name="peso"/>
                     <field name="densidade"/>
                     <field name="moeda_id"/>
+                    <field name="data"/>
+                    <field name="data_hora"/>
+                    <field name="hora_utc"/>
+                    <field name="hora_timezone_usuario"/>
+                    <field name="hora_actual"/>
                 </tree>
             </field>
         </record>
@@ -58,6 +63,10 @@
             <field name="model">odoo_basico.informacion</field>
             <field name="arch" type="xml">
                 <form string="Formulario para Informacion">
+                    <header>
+                        <button name="ver_contexto" type="object" string="Ver Contexto"/>
+                        <button name="actualiza_hora_actual_UTC" type="object" string="Actualiza Hora Actual a UTC"/>
+                    </header>
                     <group>
                         <field name="name"/>
                     </group>
@@ -99,7 +108,15 @@
                         </page>
                         <page string="Datas">
                             <group>
-
+                                <field name="data_hora"/>
+                                <field name="hora_utc"/>
+                                <field name="hora_timezone_usuario"/>
+                                <field name="hora_actualx"/>
+                            </group>
+                            <group>
+                                <field name="data"/>
+                                <field name="mes_castelan"/>
+                                <field name="mes_galego"/>
                             </group>
                         </page>
                     </notebook>

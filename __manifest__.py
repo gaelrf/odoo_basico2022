@@ -24,6 +24,8 @@
 
     # always loaded
     'data': [
+        'reports/report_header.xml',
+        'reports/report_informacion.xml',
         'views/pedido.xml',
         'views/lineapedido.xml',
         'views/informacion.xml',
