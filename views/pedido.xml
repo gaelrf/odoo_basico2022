@@ -26,8 +26,8 @@
                 <form string="Form para pedido" >
                     <header>
                         <button name="actualizadorSexo" type="object" string="Actualiza o campo Sexo do modelo información"/>
-                        <button name="creaRexistroInformacion" type="object" string="Crea un rexistro en información"/>
-                        <button name="actualizaRexistroInformacion" type="object" string="Actualiza o rexistro de informacion creado dende pedido"/>
+                        <button name="creaRexistroInformacion" type="object" string="Crea un rexistro no modelo información"/>
+                        <button name="actualizaRexistroInformacion" type="object" string="Actualiza o rexistro creado no modelo información"/>
                         <button name="actualizadorHoraTimezone" type="object" string="Actualiza Hora Timezone do Usuario en todos os rexistros do modelo información"/>
                     </header>
                     <group>

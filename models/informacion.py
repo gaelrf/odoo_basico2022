@@ -43,6 +43,8 @@ class información(models.Model):
     hora_actual = fields.Char(compute="_hora_actual", string="Hora Actual", size=15, store=True)
     mes_castelan = fields.Char(compute="_mes_castelan", size=15, string="Mes castelán", store=True)
     mes_galego = fields.Char(compute="_mes_galego", size=15, string="Mes galego", store=True)
+    mes_ingles = fields.Char(compute="_mes_ingles", size=15, string="Mes ingles", store=True)
+    mes_satanico = fields.Char(compute="_mes_satanico", size=15, string="Mes frances", store=True)
 
     @api.depends('alto_en_cms', 'longo_en_cms', 'ancho_en_cms')
     def _volume(self):
@@ -99,24 +101,22 @@ class información(models.Model):
         for rexistro in self:
             rexistro.actualiza_hora_timezone_usuario_dende_boton_e_apidepends()
 
-    def convirte_data_hora_de_utc_a_timezone_do_usuario(self,data_hora_utc_object):  # recibe a data hora en formato object
-        usuario_timezone = pytz.timezone(self.env.user.tz or 'UTC')  # obter a zona horaria do usuario. Ollo!!! nas preferencias do usuario ten que estar ben configurada a zona horaria
-        return pytz.UTC.localize(data_hora_utc_object).astimezone(usuario_timezone)  # hora co horario do usuario en formato object
+    def convirte_data_hora_de_utc_a_timezone_do_usuario(self,data_hora_utc_object):
+        usuario_timezone = pytz.timezone(self.env.user.tz or 'UTC')
+        return pytz.UTC.localize(data_hora_utc_object).astimezone(usuario_timezone)
         # para usar  pytz temos que facer  import pytz
 
     def actualiza_hora_timezone_usuario(self, obxeto_rexistro):
         obxeto_rexistro.hora_timezone_usuario = self.convirte_data_hora_de_utc_a_timezone_do_usuario(
-            obxeto_rexistro.data_hora).strftime("%H:%M:%S")  # Convertimos a hora de UTC a hora do timezone do usuario
+            obxeto_rexistro.data_hora).strftime("%H:%M:%S")
 
-    def actualiza_hora_timezone_usuario_dende_boton_e_apidepends(self):  # Esta función é chamada dende un boton de informacion.xml e dende @api.depends _hora_timezone_usuario
-        self.actualiza_hora_timezone_usuario(self)  # leva self como parametro por que actualiza_hora_timezone_usuario ten 2 parametros
-        # porque usamos tamén actualiza_hora_timezone_usuario dende outro modelo (pedido.py) e lle pasamos como parámetro o obxeto_rexistro
+    def actualiza_hora_timezone_usuario_dende_boton_e_apidepends(self):
+        self.actualiza_hora_timezone_usuario(self)
 
 
-    def actualiza_hora_actual_UTC(self): # Esta función é chamada dende un boton de informacion.xml e dende _hora_actual
+    def actualiza_hora_actual_UTC(self):
         for rexistro in self:
             rexistro.hora_actual = fields.Datetime.now().strftime("%H:%M:%S")
-        # Grava a hora en UTC, se quixesemos poderiamos usar a función  _convirte_data_hora_de_utc_a_timezone_do_usuario
 
     @api.depends('data_hora')
     def _hora_actual(self):
@@ -124,21 +124,27 @@ class información(models.Model):
             rexistro.actualiza_hora_actual_UTC()
     @api.depends('data')
     def _mes_castelan(self):
-        # O idioma por defecto é o configurado en locale na máquina onde se executa odoo.
-        # Podemos cambialo con locale.setlocale, os idiomas teñen que estar instalados na máquina onde se executa odoo.
-        # Lista onde podemos ver os distintos valores: https://docs.moodle.org/dev/Table_of_locales#Table
-        # Definimos en miñasUtilidades un método para asignar o distinto literal que ten o idioma en función da plataforma Windows ou GNULinux
         locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('Spanish_Spain.1252', 'es_ES.utf8'))
         for rexistro in self:
-            rexistro.mes_castelan = rexistro.data.strftime("%B")  # strftime https://strftime.org/
+            rexistro.mes_castelan = rexistro.data.strftime("%B")
 
     @api.depends('data')
     def _mes_galego(self):
-        # O idioma por defecto é o configurado en locale na máquina onde se executa odoo.
-        # Podemos cambialo con locale.setlocale, os idiomas teñen que estar instalados na máquina onde se executa odoo.
-        # Lista onde podemos ver os distintos valores: https://docs.moodle.org/dev/Table_of_locales#Table
-        # Definimos en miñasUtilidades un método para asignar o distinto literal que ten o idioma en función da plataforma Windows ou GNULinux
         locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('Galician_Spain.1252', 'gl_ES.utf8'))
         for rexistro in self:
             rexistro.mes_galego = rexistro.data.strftime("%B")
+        locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('Spanish_Spain.1252', 'es_ES.utf8'))\
+
+    @api.depends('data')
+    def _mes_ingles(self):
+        locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('English_United_Kingdom.1252', 'en_GB.utf8'))
+        for rexistro in self:
+            rexistro.mes_ingles = rexistro.data.strftime("%B")
+        locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('Spanish_Spain.1252', 'es_ES.utf8'))\
+
+    @api.depends('data')
+    def _mes_satanico(self):
+        locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('French_France.1252', 'fr_FR.utf8'))
+        for rexistro in self:
+            rexistro.mes_satanico = rexistro.data.strftime("%B")
         locale.setlocale(locale.LC_TIME, miñasUtilidades.cadeaTextoSegunPlataforma('Spanish_Spain.1252', 'es_ES.utf8'))

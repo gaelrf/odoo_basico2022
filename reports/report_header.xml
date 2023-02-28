@@ -1,8 +1,5 @@
 <odoo>
 
- <button name="actualiza_hora_actual_UTC" type="object" string="Actualiza Hora Actual a UTC"/>
-
-
     <template id="report_header" inherit_id="web.external_layout_standard">
             <xpath expr="//div[@name='company_address']" position="replace">
                 <span t-field="company.partner_id.name" />
